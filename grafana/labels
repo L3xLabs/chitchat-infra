@@ -1,0 +1,19 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+
+
+
+traefik.http.middlewares.matrix-grafana-add-headers.headers.customresponseheaders.Permission-Policy=interest-cohort=()
+traefik.http.middlewares.matrix-grafana-add-headers.headers.customresponseheaders.Strict-Transport-Security=max-age=31536000; includeSubDomains
+
+traefik.http.routers.matrix-grafana.rule=Host(`stats.l3xlabs.com`)
+traefik.http.routers.matrix-grafana.service=matrix-grafana
+traefik.http.routers.matrix-grafana.middlewares=matrix-grafana-add-headers
+traefik.http.routers.matrix-grafana.entrypoints=web-secure
+traefik.http.routers.matrix-grafana.tls=true
+traefik.http.routers.matrix-grafana.tls.certResolver=default
+
+traefik.http.services.matrix-grafana.loadbalancer.server.port=3000
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+docker run \
+	--rm \
+	--user=999:1002 \
+	--cap-drop=ALL \
+	--env-file=/matrix/postgres/env-postgres-psql \
+	--network=matrix-postgres \
+	docker.io/postgres:17.0-alpine \
+	psql -h matrix-postgres \
+	"$@"

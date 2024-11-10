@@ -1,0 +1,19 @@
+worker_app: synapse.app.generic_worker
+worker_name: matrix-synapse-worker-user-dir-0
+
+worker_daemonize: false
+worker_log_config: /data/matrix.l3xlabs.com.log.config
+
+
+
+
+worker_listeners:
+  - type: http
+    bind_addresses: ['::']
+    x_forwarded: true
+    port: 18661
+    resources:
+      - names: ["client"]
+  - type: metrics
+    bind_addresses: ['0.0.0.0']
+    port: 19661

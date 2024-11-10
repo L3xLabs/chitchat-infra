@@ -1,0 +1,61 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+traefik.http.services.matrix-static-files.loadbalancer.server.port=8080
+
+
+############################################################
+#                                                          #
+# Related to /.well-known/matrix on the matrix domain      #
+#                                                          #
+############################################################
+
+
+traefik.http.middlewares.matrix-static-files-well-known-compress.compress=true
+traefik.http.middlewares.matrix-static-files-well-known-compress.compress.minResponseBodyBytes=100
+
+traefik.http.routers.matrix-static-files-well-known.rule=Host(`matrix.l3xlabs.com`) && PathPrefix(`/.well-known/matrix`)
+
+traefik.http.routers.matrix-static-files-well-known.middlewares=matrix-static-files-well-known-compress
+
+
+traefik.http.routers.matrix-static-files-well-known.service=matrix-static-files
+traefik.http.routers.matrix-static-files-well-known.entrypoints=web-secure
+traefik.http.routers.matrix-static-files-well-known.tls=true
+
+traefik.http.routers.matrix-static-files-well-known.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Related to /.well-known/matrix on the matrix domain     #
+#                                                          #
+############################################################
+
+
+############################################################
+#                                                          #
+# Base domain serving                                      #
+#                                                          #
+############################################################
+
+
+
+traefik.http.routers.matrix-static-files-base-domain.rule=Host(`l3xlabs.com`)
+
+
+
+traefik.http.routers.matrix-static-files-base-domain.service=matrix-static-files
+traefik.http.routers.matrix-static-files-base-domain.entrypoints=web-secure
+traefik.http.routers.matrix-static-files-base-domain.tls=true
+
+traefik.http.routers.matrix-static-files-base-domain.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Base domain serving                                     #
+#                                                          #
+############################################################
+
+
+

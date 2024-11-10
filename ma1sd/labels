@@ -1,0 +1,92 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+traefik.http.services.matrix-ma1sd.loadbalancer.server.port=8090
+
+############################################################
+#                                                          #
+# Matrix Identity APIs (/_matrix/identity)                 #
+#                                                          #
+############################################################
+
+traefik.http.routers.matrix-ma1sd-matrix-identity.rule=Host(`matrix.l3xlabs.com`) && PathPrefix(`/_matrix/identity`)
+
+
+traefik.http.routers.matrix-ma1sd-matrix-identity.service=matrix-ma1sd
+traefik.http.routers.matrix-ma1sd-matrix-identity.entrypoints=web-secure
+
+traefik.http.routers.matrix-ma1sd-matrix-identity.tls=true
+traefik.http.routers.matrix-ma1sd-matrix-identity.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Matrix Identity APIs (/_matrix/identity)                #
+#                                                          #
+############################################################
+
+
+############################################################
+#                                                          #
+# Matrix Client user-directory search API endpoint         #
+# (/_matrix/client/VERSION/user_directory/search)          #
+#                                                          #
+############################################################
+
+# ma1sd only supports /_matrix/client/r0/user_directory/search
+# while we potentially handle /_matrix/client/v3/user_directory/search as well,
+# so we need to transparently reroute.
+traefik.http.middlewares.matrix-ma1sd-matrix-client-user-directory-search-replacepath.replacepath.path=/_matrix/client/r0/user_directory/search
+
+traefik.http.routers.matrix-ma1sd-matrix-client-user-directory-search.rule=Host(`matrix.l3xlabs.com`) && PathRegexp(`/_matrix/client/(?P<version>(r0|v3))/user_directory/search`)
+
+traefik.http.routers.matrix-ma1sd-matrix-client-user-directory-search.middlewares=matrix-ma1sd-matrix-client-user-directory-search-replacepath
+
+
+traefik.http.routers.matrix-ma1sd-matrix-client-user-directory-search.service=matrix-ma1sd
+traefik.http.routers.matrix-ma1sd-matrix-client-user-directory-search.entrypoints=web-secure
+
+traefik.http.routers.matrix-ma1sd-matrix-client-user-directory-search.tls=true
+traefik.http.routers.matrix-ma1sd-matrix-client-user-directory-search.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Matrix Client user-directory search API endpoint        #
+# (/_matrix/client/VERSION/user_directory/search)          #
+#                                                          #
+############################################################
+
+
+############################################################
+#                                                          #
+# Matrix Client 3pid registration API endpoint             #
+# (/_matrix/client/VERSION/register/TYPE/requestToken)     #
+#                                                          #
+############################################################
+
+# ma1sd only supports /_matrix/client/r0/register/TYPE/requestToken
+# while we potentially handle /_matrix/client/v3/register/TYPE/requestToken as well,
+# so we need to transparently reroute.
+traefik.http.middlewares.matrix-ma1sd-matrix-client-3pid-registration-replacepathregex.replacepathregex.regex=^/_matrix/client/([^/]+)/register/([^/]+)/requestToken
+traefik.http.middlewares.matrix-ma1sd-matrix-client-3pid-registration-replacepathregex.replacepathregex.replacement=/_matrix/client/r0/register/${2}/requestToken
+
+traefik.http.routers.matrix-ma1sd-matrix-client-3pid-registration.rule=Host(`matrix.l3xlabs.com`) && PathRegexp(`/_matrix/client/(?P<version>(r0|v3))/register/(?P<type>(email|msisdn))/requestToken`)
+
+traefik.http.routers.matrix-ma1sd-matrix-client-3pid-registration.middlewares=matrix-ma1sd-matrix-client-3pid-registration-replacepathregex
+
+
+traefik.http.routers.matrix-ma1sd-matrix-client-3pid-registration.service=matrix-ma1sd
+traefik.http.routers.matrix-ma1sd-matrix-client-3pid-registration.entrypoints=web-secure
+
+traefik.http.routers.matrix-ma1sd-matrix-client-3pid-registration.tls=true
+traefik.http.routers.matrix-ma1sd-matrix-client-3pid-registration.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Matrix Client 3pid registration API endpoint            #
+# (/_matrix/client/VERSION/register/TYPE/requestToken)     #
+#                                                          #
+############################################################
+
+
+

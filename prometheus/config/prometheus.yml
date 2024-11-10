@@ -1,0 +1,156 @@
+global:
+  evaluation_interval: 60s
+  scrape_interval: 60s
+  scrape_timeout: 10s
+rule_files:
+- synapse-v2.rules
+scrape_configs:
+- job_name: prometheus
+  scrape_interval: 5s
+  scrape_timeout: 5s
+  static_configs:
+  - targets:
+    - localhost:9090
+- job_name: node
+  scrape_interval: 60s
+  scrape_timeout: 60s
+  static_configs:
+  - targets:
+    - matrix-prometheus-node-exporter:9100
+- job_name: synapse
+  metrics_path: /_synapse/metrics
+  scrape_interval: 15s
+  scrape_timeout: 15s
+  static_configs:
+  - labels:
+      index: 0
+      instance: l3xlabs.com
+      job: master
+    targets:
+    - matrix-synapse:9100
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: room_worker
+      worker_id: room-worker-0
+    targets:
+    - matrix-synapse-worker-room-0:29111
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: sync_worker
+      worker_id: sync-worker-0
+    targets:
+    - matrix-synapse-worker-sync-0:29211
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: client_reader
+      worker_id: client-reader-0
+    targets:
+    - matrix-synapse-worker-client-reader-0:29311
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: federation_reader
+      worker_id: federation-reader-0
+    targets:
+    - matrix-synapse-worker-federation-reader-0:29411
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: stream_writer
+      worker_id: stream-writer-0-events
+    targets:
+    - matrix-synapse-worker-stream-writer-0-events:19211
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: stream_writer
+      worker_id: stream-writer-1-typing
+    targets:
+    - matrix-synapse-worker-stream-writer-1-typing:19212
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: stream_writer
+      worker_id: stream-writer-2-to_device
+    targets:
+    - matrix-synapse-worker-stream-writer-2-to-device:19213
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: stream_writer
+      worker_id: stream-writer-3-account_data
+    targets:
+    - matrix-synapse-worker-stream-writer-3-account-data:19214
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: stream_writer
+      worker_id: stream-writer-4-receipts
+    targets:
+    - matrix-synapse-worker-stream-writer-4-receipts:19215
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: stream_writer
+      worker_id: stream-writer-5-presence
+    targets:
+    - matrix-synapse-worker-stream-writer-5-presence:19216
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: federation_sender
+      worker_id: federation-sender-0
+    targets:
+    - matrix-synapse-worker-federation-sender-0:19400
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: pusher
+      worker_id: pusher-0
+    targets:
+    - matrix-synapse-worker-pusher-0:19200
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: appservice
+      worker_id: appservice-0
+    targets:
+    - matrix-synapse-worker-appservice-0:19300
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: user_dir
+      worker_id: user-dir-0
+    targets:
+    - matrix-synapse-worker-user-dir-0:19661
+  - labels:
+      app: media_repository
+      instance: l3xlabs.com
+      job: media_repository
+      worker_id: media-repository-0
+    targets:
+    - matrix-synapse-worker-media-repository-0:19551
+  - labels:
+      app: generic_worker
+      instance: l3xlabs.com
+      job: background
+      worker_id: background-0
+    targets:
+    - matrix-synapse-worker-background-0:19700
+- job_name: postgres
+  metrics_path: /metrics
+  scrape_interval: 15s
+  scrape_timeout: 15s
+  static_configs:
+  - targets:
+    - matrix-prometheus-postgres-exporter:9187
+- job_name: nginxlog
+  metrics_path: /metrics
+  scrape_interval: 15s
+  scrape_timeout: 15s
+  static_configs:
+  - targets:
+    - matrix-prometheus-nginxlog-exporter:4040

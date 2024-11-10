@@ -1,0 +1,4 @@
+POSTGRES_USER=matrix
+POSTGRES_PASSWORD=ovwtlpnYrCmczpzNLTGA9u54tbkjiabbS0P4YajP2DqfUzL1Vqar0N9mi8NHa4it
+POSTGRES_DB=matrix
+POSTGRES_INITDB_ARGS=--lc-collate C --lc-ctype C --encoding UTF8

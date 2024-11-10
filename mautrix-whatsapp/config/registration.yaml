@@ -1,0 +1,13 @@
+as_token: fff883d3-c70d-56c4-9802-8f8128e32c19
+de.sorunome.msc2409.push_ephemeral: true
+hs_token: b806b80b-e9ec-54e2-a423-5b3f051e4cd2
+id: whatsapp
+namespaces:
+  users:
+  - exclusive: true
+    regex: ^@whatsapp_[0-9]+:l3xlabs\.com$
+  - exclusive: true
+    regex: ^@whatsappbot:l3xlabs\.com$
+rate_limited: false
+sender_localpart: _bot_whatsappbot
+url: http://matrix-mautrix-whatsapp:8080

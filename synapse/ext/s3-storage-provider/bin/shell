@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+
+container_id=$(\
+	/usr/bin/env docker create \
+	-it \
+	--rm \
+	--name=matrix-synapse-s3-storage-provider-shell \
+	--env-file=/matrix/synapse/ext/s3-storage-provider/env \
+	--mount type=bind,src=/matrix/synapse/storage,dst=/matrix-media-store-parent,bind-propagation=slave \
+	--mount type=bind,src=/matrix/synapse/ext/s3-storage-provider/data,dst=/data \
+	--workdir=/data \
+	--network=matrix-homeserver \
+	--entrypoint=/bin/bash \
+	localhost/matrixdotorg/synapse:v1.116.0-customized  \
+)
+
+/usr/bin/env docker network connect traefik $container_id
+/usr/bin/env docker network connect matrix-postgres $container_id
+/usr/bin/env docker network connect matrix-keydb $container_id
+/usr/bin/env docker network connect matrix-exim-relay $container_id
+
+/usr/bin/env docker start --attach -i $container_id

@@ -1,0 +1,6 @@
+
+[[advanced.headers]]
+source = "/.well-known/matrix/*"
+headers.Content-Type = "application/json"
+headers.Access-Control-Allow-Origin = "*"
+headers.Cache-Control = "max-age=14400"

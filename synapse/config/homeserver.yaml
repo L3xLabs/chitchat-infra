@@ -1,0 +1,300 @@
+account_threepid_delegates:
+  msisdn: http://matrix-ma1sd:8090
+alias_creation_rules:
+- action: allow
+  alias: '*'
+  room_id: '*'
+  user_id: '*'
+allow_guest_access: false
+allow_public_rooms_over_federation: true
+allow_public_rooms_without_auth: false
+app_service_config_files:
+- /matrix-appservice-double-puppet-registration.yaml
+- /matrix-mautrix-discord-registration.yaml
+- /matrix-mautrix-whatsapp-registration.yaml
+- /matrix-mx-puppet-slack-registration.yaml
+auto_accept_invites:
+  enabled: false
+  only_for_direct_messages: false
+  only_from_local_users: false
+  worker_to_run_on: null
+auto_join_mxid_localpart: ''
+autocreate_auto_join_rooms: true
+background_updates: null
+caches:
+  cache_autotuning:
+    max_cache_memory_usage: 2095185920
+    min_cache_ttl: 30s
+    target_cache_memory_usage: 1047592960
+  cache_entry_ttl: 1080m
+  expire_caches: true
+  global_factor: 10
+  per_cache_factors: null
+  sync_response_cache_duration: 2m
+cas_config: null
+daemonize: false
+database:
+  args:
+    cp_max: 10
+    cp_min: 5
+    database: synapse
+    host: matrix-postgres
+    password: a5362453-64b7-59e1-aa2e-eae2f90e4b0a
+    port: 5432
+    user: synapse
+  name: psycopg2
+  txn_limit: 0
+default_room_version: '10'
+email:
+  app_name: Matrix
+  client_base_url: https://element.l3xlabs.com
+  enable_notifs: true
+  enable_tls: true
+  invite_client_location: https://app.element.io
+  notif_for_new_users: true
+  notif_from: Matrix <matrix@matrix.l3xlabs.com>
+  require_transport_security: false
+  smtp_host: matrix-exim-relay
+  smtp_port: 8025
+enable_authenticated_media: false
+enable_media_repo: false
+enable_metrics: true
+enable_registration: true
+enable_registration_captcha: true
+enable_registration_without_verification: false
+enable_room_list_search: true
+encryption_enabled_by_default_for_room_type: 'off'
+event_cache_size: 100K
+federation_rr_transactions_per_room_per_second: 50
+federation_sender_instances:
+- matrix-synapse-worker-federation-sender-0
+forget_rooms_on_leave: true
+forgotten_room_retention_period: null
+form_secret: ee26f84b-99d6-5e89-b459-8ef8373a71fd
+include_profile_data_on_invite: true
+instance_map:
+  main:
+    host: matrix-synapse
+    port: 9093
+  matrix-synapse-worker-stream-writer-0-events:
+    host: matrix-synapse-worker-stream-writer-0-events
+    port: 25011
+  matrix-synapse-worker-stream-writer-1-typing:
+    host: matrix-synapse-worker-stream-writer-1-typing
+    port: 25012
+  matrix-synapse-worker-stream-writer-2-to-device:
+    host: matrix-synapse-worker-stream-writer-2-to-device
+    port: 25013
+  matrix-synapse-worker-stream-writer-3-account-data:
+    host: matrix-synapse-worker-stream-writer-3-account-data
+    port: 25014
+  matrix-synapse-worker-stream-writer-4-receipts:
+    host: matrix-synapse-worker-stream-writer-4-receipts
+    port: 25015
+  matrix-synapse-worker-stream-writer-5-presence:
+    host: matrix-synapse-worker-stream-writer-5-presence
+    port: 25016
+limit_profile_requests_to_users_who_share_rooms: false
+limit_remote_rooms: null
+listeners:
+- bind_addresses:
+  - 0.0.0.0
+  port: 9100
+  type: metrics
+- bind_addresses:
+  - '::'
+  port: 8008
+  resources:
+  - compress: false
+    names:
+    - client
+  tls: false
+  type: http
+  x_forwarded: true
+- bind_addresses:
+  - '::'
+  port: 8048
+  resources:
+  - compress: false
+    names:
+    - federation
+  tls: false
+  type: http
+  x_forwarded: true
+- bind_addresses:
+  - 0.0.0.0
+  port: 9093
+  resources:
+  - names:
+    - replication
+  type: http
+log_config: /data/matrix.l3xlabs.com.log.config
+macaroon_secret_key: ee26f84b-99d6-5e89-b459-8ef8373a71fd
+manhole_settings: null
+max_spider_size: 10M
+max_upload_size: 50M
+media_instance_running_background_jobs: matrix-synapse-worker-media-repository-0
+media_retention: null
+media_storage_providers:
+- config:
+    access_key_id: 8JB1IRZU49TGFFE39H2Y
+    bucket: synapse-media
+    endpoint_url: https://blr1.vultrobjects.com/synapse-media
+    region_name: blr1
+    secret_access_key: JesQbWkHxmEzkbmRVQoTd3uvAt2RT4FBljqDTZOe
+    storage_class: STANDARD
+    threadpool_size: 40
+  module: s3_storage_provider.S3StorageProviderBackend
+  store_local: true
+  store_remote: true
+  store_synchronous: false
+media_store_path: /matrix-media-store-parent/media-store
+metrics_flags: null
+modules: []
+notify_appservices_from_worker: matrix-synapse-worker-appservice-0
+oembed: null
+old_signing_keys: null
+opentracing: null
+password_config:
+  enabled: true
+  localdb_enabled: true
+  pepper: ''
+  policy: null
+pid_file: /homeserver.pid
+presence:
+  enabled: true
+public_baseurl: https://matrix.l3xlabs.com/
+push:
+  include_content: true
+pusher_instances:
+- matrix-synapse-worker-pusher-0
+rc_admin_redaction:
+  burst_count: 50
+  per_second: 1
+rc_federation:
+  concurrent: 3
+  reject_limit: 50
+  sleep_delay: 500
+  sleep_limit: 10
+  window_size: 1000
+rc_invites:
+  per_issuer:
+    burst_count: 10
+    per_second: 0.3
+  per_room:
+    burst_count: 10
+    per_second: 0.3
+  per_user:
+    burst_count: 5
+    per_second: 0.003
+rc_joins:
+  local:
+    burst_count: 10
+    per_second: 0.1
+  remote:
+    burst_count: 10
+    per_second: 0.01
+rc_login:
+  account:
+    burst_count: 3
+    per_second: 0.17
+  address:
+    burst_count: 3
+    per_second: 0.17
+  failed_attempts:
+    burst_count: 3
+    per_second: 0.17
+rc_message:
+  burst_count: 10
+  per_second: 0.2
+rc_registration:
+  burst_count: 3
+  per_second: 0.17
+recaptcha_private_key: 6Le_XGUqAAAAACupk1qMYHw4bMSvRcuJ6A4gS-eA
+recaptcha_public_key: 6Le_XGUqAAAAAGGkZj-eUU6cFbQPG8CMs4ofCch3
+redaction_retention_period: 7d
+redis:
+  dbid: 0
+  enabled: true
+  host: matrix-keydb
+  password: null
+  port: 6379
+registration_requires_token: false
+registration_shared_secret: ee26f84b-99d6-5e89-b459-8ef8373a71fd
+report_stats: false
+report_stats_endpoint: http://matrix-synapse-usage-exporter:5000/report-usage-stats/push
+require_auth_for_profile_requests: false
+retention: null
+room_list_publication_rules:
+- action: allow
+  alias: '*'
+  room_id: '*'
+  user_id: '*'
+room_prejoin_state: null
+run_background_tasks_on: matrix-synapse-worker-background-0
+saml2_config:
+  sp_config: null
+  user_mapping_provider:
+    config: null
+server_name: l3xlabs.com
+signing_key_path: /data/matrix.l3xlabs.com.signing.key
+sso: null
+stats: null
+stream_writers:
+  account_data:
+  - matrix-synapse-worker-stream-writer-3-account-data
+  events:
+  - matrix-synapse-worker-stream-writer-0-events
+  presence:
+  - matrix-synapse-worker-stream-writer-5-presence
+  receipts:
+  - matrix-synapse-worker-stream-writer-4-receipts
+  to_device:
+  - matrix-synapse-worker-stream-writer-2-to-device
+  typing:
+  - matrix-synapse-worker-stream-writer-1-typing
+templates: null
+tls_certificate_path: null
+tls_private_key_path: null
+trusted_key_servers:
+- server_name: matrix.org
+turn_allow_guests: false
+turn_password: ''
+turn_shared_secret: 41f1d06a-78cd-58f5-9180-a00f4f3e0b83
+turn_uris:
+- turns:matrix.l3xlabs.com?transport=udp
+- turns:matrix.l3xlabs.com?transport=tcp
+- turn:matrix.l3xlabs.com?transport=udp
+- turn:matrix.l3xlabs.com?transport=tcp
+turn_username: ''
+ui_auth: null
+update_user_directory_from_worker: matrix-synapse-worker-user-dir-0
+url_preview_accept_language:
+- en-US
+- en
+url_preview_enabled: true
+url_preview_ip_range_blacklist:
+- 127.0.0.0/8
+- 10.0.0.0/8
+- 172.16.0.0/12
+- 192.168.0.0/16
+- 100.64.0.0/10
+- 192.0.0.0/24
+- 169.254.0.0/16
+- 192.88.99.0/24
+- 198.18.0.0/15
+- 192.0.2.0/24
+- 198.51.100.0/24
+- 203.0.113.0/24
+- 224.0.0.0/4
+- ::1/128
+- fe80::/10
+- fc00::/7
+- 2001:db8::/32
+- ff00::/8
+- fec0::/10
+user_directory:
+  prefer_local_users: false
+  search_all_users: false
+user_ips_max_age: 28d
+worker_app: synapse.app.homeserver

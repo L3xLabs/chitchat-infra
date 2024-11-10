@@ -1,0 +1,16 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+
+
+
+
+traefik.http.routers.matrix-jitsi-jvb.rule=Host(`jitsi.l3xlabs.com`) && PathPrefix(`/colibri-ws/jvb-1/`)
+traefik.http.routers.matrix-jitsi-jvb.service=matrix-jitsi-jvb
+traefik.http.routers.matrix-jitsi-jvb.entrypoints=web-secure
+traefik.http.routers.matrix-jitsi-jvb.tls=true
+traefik.http.routers.matrix-jitsi-jvb.tls.certResolver=default
+
+traefik.http.services.matrix-jitsi-jvb.loadbalancer.server.port=9090
+

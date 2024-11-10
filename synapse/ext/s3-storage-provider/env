@@ -1,0 +1,14 @@
+AWS_ACCESS_KEY_ID=8JB1IRZU49TGFFE39H2Y
+AWS_SECRET_ACCESS_KEY=JesQbWkHxmEzkbmRVQoTd3uvAt2RT4FBljqDTZOe
+AWS_DEFAULT_REGION=blr1
+
+ENDPOINT=https://blr1.vultrobjects.com/synapse-media
+BUCKET=synapse-media
+
+
+
+STORAGE_CLASS=STANDARD
+
+MEDIA_PATH=/matrix-media-store-parent/media-store
+
+UPDATE_DB_DURATION=0d

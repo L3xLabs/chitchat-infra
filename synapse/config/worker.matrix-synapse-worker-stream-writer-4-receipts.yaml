@@ -1,0 +1,24 @@
+worker_app: synapse.app.generic_worker
+worker_name: matrix-synapse-worker-stream-writer-4-receipts
+
+worker_daemonize: false
+worker_log_config: /data/matrix.l3xlabs.com.log.config
+
+
+
+
+worker_listeners:
+  - type: http
+    bind_addresses: ['::']
+    x_forwarded: true
+    port: 20015
+    resources:
+      - names: ["client"]
+  - type: metrics
+    bind_addresses: ['0.0.0.0']
+    port: 19215
+  - type: http
+    bind_addresses: ['::']
+    port: 25015
+    resources:
+      - names: ["replication"]

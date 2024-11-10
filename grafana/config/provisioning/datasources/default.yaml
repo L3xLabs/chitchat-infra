@@ -1,0 +1,3 @@
+apiVersion: 1
+
+datasources: [{"name": "matrix.l3xlabs.com - Prometheus", "type": "prometheus", "access": "proxy", "url": "http://matrix-prometheus:9090", "jsonData": {"timeInterval": "60s"}}]

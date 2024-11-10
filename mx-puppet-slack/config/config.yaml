@@ -1,0 +1,25 @@
+bridge:
+  bindAddress: 0.0.0.0
+  domain: l3xlabs.com
+  homeserverUrl: http://matrix-traefik:8008
+  port: 8432
+database:
+  connString: postgresql://matrix_mx_puppet_slack:9d6bed7f-6720-5a8f-bbc1-97ed717be9bc@matrix-postgres:5432/matrix_mx_puppet_slack?sslmode=disable
+logging:
+  console: warn
+  files: []
+  lineDateFormat: MMM-D HH:mm:ss.SSS
+oauth:
+  clientId: '7902704233077.7905475160291'
+  clientSecret: b28df3c6907105cb16a4962ac80fac40
+  enabled: true
+  redirectPath: /slack/oauth
+  redirectUri: https://matrix.l3xlabs.com/slack/oauth
+presence:
+  enabled: true
+  interval: 5000
+provisioning:
+  apiPrefix: /_matrix/provision
+  blacklist: []
+  whitelist:
+  - '@.*:l3xlabs\.com'

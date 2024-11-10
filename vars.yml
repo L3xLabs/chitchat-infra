@@ -1,0 +1,175 @@
+---
+# The bare domain name which represents your Matrix identity.
+# Matrix user ids for your server will be of the form (`@user:<matrix-domain>`).
+#
+# Note: this playbook does not touch the server referenced here.
+# Installation happens on another server ("matrix.<matrix-domain>").
+#
+# If you've deployed using the wrong domain, you'll have to run the Uninstalling step,
+# because you can't change the Domain after deployment.
+#
+# Example value: example.com
+matrix_domain: l3xlabs.com
+
+# The Matrix homeserver software to install.
+# See:
+#  - `roles/custom/matrix-base/defaults/main.yml` for valid options
+# - the `docs/configuring-playbook-IMPLEMENTATION_NAME.md` documentation page, if one is available for your implementation choice
+matrix_homeserver_implementation: synapse
+
+# A secret used as a base, for generating various other secrets.
+# You can put any string here, but generating a strong one is preferred (e.g. `pwgen -s 64 1`).
+matrix_homeserver_generic_secret_key: "kwF9KZOu8Hqv6xMC8FjoMKfRLJPVegHfsYff2w8WVrM8SOwOsUTHMcYkYiqyvGQv"
+
+# By default, the playbook manages its own Traefik (https://doc.traefik.io/traefik/) reverse-proxy server.
+# It will retrieve SSL certificates for you on-demand and forward requests to all other components.
+# For alternatives, see `docs/configuring-playbook-own-webserver.md`.
+matrix_playbook_reverse_proxy_type: playbook-managed-traefik
+
+# This is something which is provided to Let's Encrypt when retrieving SSL certificates for domains.
+#
+# In case SSL renewal fails at some point, you'll also get an email notification there.
+#
+# If you decide to use another method for managing SSL certificates (different than the default Let's Encrypt),
+# you won't be required to define this variable (see `docs/configuring-playbook-ssl-certificates.md`).
+#
+# Example value: someone@example.com
+traefik_config_certificatesResolvers_acme_email: "admin@l3xlabs.com"
+
+# A Postgres password to use for the superuser Postgres user (called `matrix` by default).
+#
+# The playbook creates additional Postgres users and databases (one for each enabled service)
+# using this superuser account.
+postgres_connection_password: "ovwtlpnYrCmczpzNLTGA9u54tbkjiabbS0P4YajP2DqfUzL1Vqar0N9mi8NHa4it"
+# By default, we configure Coturn's external IP address using the value specified for `ansible_host` in your `inventory/hosts` file.
+# If this value is an external IP address, you can skip this section.
+#
+# If `ansible_host` is not the server's external IP address, you have 2 choices:
+# 1. Uncomment the line below, to allow IP address auto-detection to happen (more on this below)
+# 2. Uncomment and adjust the line below to specify an IP address manually
+#
+# By default, auto-detection will be attempted using the `https://ifconfig.co/json` API.
+# Default values for this are specified in `matrix_coturn_turn_external_ip_address_auto_detection_*` variables in the Coturn role
+# (see `roles/custom/matrix-coturn/defaults/main.yml`).
+#
+# If your server has multiple IP addresses, you may define them in another variable which allows a list of addresses.
+# Example: `matrix_coturn_turn_external_ip_addresses: ['1.2.3.4', '4.5.6.7']`
+#
+# matrix_coturn_turn_external_ip_address: ''
+matrix_static_files_container_labels_base_domain_enabled: true
+
+prometheus_enabled: true
+
+# You can remove this, if unnecessary.
+prometheus_node_exporter_enabled: true
+
+# You can remove this, if unnecessary.
+prometheus_postgres_exporter_enabled: true
+
+# You can remove this, if unnecessary.
+matrix_prometheus_nginxlog_exporter_enabled: true
+
+grafana_enabled: true
+
+grafana_anonymous_access: false
+
+# This has no relation to your Matrix user id. It can be any username you'd like.
+# Changing the username subsequently won't work.
+grafana_default_admin_user: "meru"
+
+# Changing the password subsequently won't work.
+grafana_default_admin_password: "meru@meru"
+# #Identity Server
+matrix_ma1sd_enabled: true
+# #We can change the default template by going to roles/custom/matrix-ma1sd/defaults/main.yml and changing matrix_ma1sd_threepi_meium_email_custom_ property
+matrix_synapse_enable_registration: true
+matrix_synapse_enable_registration_captcha: true
+matrix_synapse_recaptcha_public_key: "6Le_XGUqAAAAAGGkZj-eUU6cFbQPG8CMs4ofCch3"
+matrix_synapse_recaptcha_private_key: "6Le_XGUqAAAAACupk1qMYHw4bMSvRcuJ6A4gS-eA"
+# matrix_synapse_registrations_require_3pid:
+#   - email
+# matrix_synapse_disable_msisdn_registration: true
+#
+# matrix_synapse_allowed_local_3pids:
+#   - medium: email
+#     pattern: '^[^@]+@matrix\.org$'
+#   - medium: email
+#     pattern: '^[^@]+@gmail\.com$'
+#
+matrix_coturn_enabled: true
+matrix_coturn_turn_external_ip_address:
+
+# matrix_synapse_oidc_enabled: true
+#
+# matrix_synapse_oidc_providers:
+#   - idp_id: github
+#     idp_name: Github
+#     idp_brand: "github" # optional: styling hint for clients
+#     discover: false
+#     issuer: "https://github.com/"
+#     client_id: "Ov23lixuDQDKpFM01DU0" # TO BE FILLED
+#     client_secret: "c2a05b85fa7dc4b5e214911617dd764c81476590" # TO BE FILLED
+#     authorization_endpoint: "https://github.com/login/oauth/authorize"
+#     token_endpoint: "https://github.com/login/oauth/access_token"
+#     userinfo_endpoint: "https://api.github.com/user"
+#     scopes: ["read:user"]
+#     user_mapping_provider:
+#       config:
+#         subject_claim: "id"
+#         localpart_template: "{{ user.login }}"
+#         display_name_template: "{{ user.name }}"
+
+# - idp_id: google
+#   idp_name: Google
+#   idp_brand: "google" # optional: styling hint for clients
+#   issuer: "https://accounts.google.com/"
+#   client_id: "394633270449-ossdpi84cqmplqffb1ttihpleni3nage.apps.googleusercontent.com" # TO BE FILLED
+#   client_secret: "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" # TO BE FILLED
+#   scopes: ["openid", "profile", "email"] # email is optional, read below
+#   user_mapping_provider:
+#     config:
+#       localpart_template: "{{ user.given_name|lower }}"
+#       display_name_template: "{{ user.name }}"
+#       email_template: "{{ user.email }}" # needs "email" in scopes above
+
+jitsi_enabled: true
+
+matrix_admin: "@meru:{{ matrix_domain }}"
+
+#Whatsapp bridge
+matrix_mautrix_whatsapp_enabled: true
+matrix_mautrix_whatsapp_bridge_relay_enabled: true
+matrix_mautrix_whatsapp_bridge_relay_admin_only: false
+matrix_appservice_double_puppet_enabled: true
+
+#S3 setup
+matrix_synapse_ext_synapse_s3_storage_provider_enabled: true
+matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: synapse-media
+matrix_synapse_ext_synapse_s3_storage_provider_config_region_name: blr1
+matrix_synapse_ext_synapse_s3_storage_provider_config_endpoint_url: https://blr1.vultrobjects.com/synapse-media
+matrix_synapse_ext_synapse_s3_storage_provider_config_storage_class: STANDARD
+matrix_synapse_ext_synapse_s3_storage_provider_config_access_key_id: 8JB1IRZU49TGFFE39H2Y
+matrix_synapse_ext_synapse_s3_storage_provider_config_secret_access_key: JesQbWkHxmEzkbmRVQoTd3uvAt2RT4FBljqDTZOe
+
+# #email bridge setup we have to remove default smtp or chage the port of postmoogle
+# matrix_bot_postmoogle_enabled: true
+# matrix_bot_postmoogle_password: zNUAT78m62swsXbbgsDEHW2MzIoWbiZddpH1CePapfq2PQ6bDwHrvqXt6lbBmqvc
+# matrix_bot_postmoogle_loglevel: "DEBUG"
+
+#Scalind Synapse
+matrix_synapse_workers_enabled: true
+matrix_synapse_workers_preset: specialized-workers
+# exim_relay_sender_address: "admin@l3xlabs.com"
+# exim_relay_relay_use: true
+# exim_relay_relay_host_name: "smtp.resend.com"
+# exim_relay_relay_host_port: 587
+# exim_relay_relay_auth: true
+# exim_relay_relay_auth_username: "resend"
+# exim_relay_relay_auth_password: "re_jb4gSjN4_CWEUzbX1nk63ZYJR8zfBRccy"
+
+matrix_mx_puppet_slack_enabled: true
+# Client ID must be quoted so YAML does not parse it as a float.
+matrix_mx_puppet_slack_oauth_client_id: "7902704233077.7905475160291"
+matrix_mx_puppet_slack_oauth_client_secret: "b28df3c6907105cb16a4962ac80fac40"
+
+matrix_mautrix_discord_enabled: true

@@ -1,0 +1,13 @@
+as_token: 8b521e54-044d-58df-ac6f-497a02115897
+de.sorunome.msc2409.push_ephemeral: true
+hs_token: b0c2377e-34c6-5c7b-84b2-d7e45049ae8f
+id: discord
+namespaces:
+  users:
+  - exclusive: true
+    regex: ^@discord_[0-9]+:l3xlabs\.com$
+  - exclusive: true
+    regex: ^@discordbot:l3xlabs\.com$
+rate_limited: false
+sender_localpart: _bot_discordbot
+url: http://matrix-mautrix-discord:8080

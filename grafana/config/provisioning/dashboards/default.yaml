@@ -1,0 +1,3 @@
+apiVersion: 1
+
+providers: [{"name": "Dashboards", "folder": "", "type": "file", "allowUiUpdates": true, "options": {"path": "/etc/grafana/dashboards"}}]

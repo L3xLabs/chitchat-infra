@@ -1,0 +1,5 @@
+user: "synapse"
+password: "a5362453-64b7-59e1-aa2e-eae2f90e4b0a"
+database: "synapse"
+host: "matrix-postgres"
+port: 5432

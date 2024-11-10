@@ -1,0 +1,47 @@
+dns:
+  overwrite:
+    homeserver:
+      client:
+      - name: matrix.l3xlabs.com
+        value: http://matrix-traefik:8008
+hashing:
+  algorithms:
+  - none
+  - sha256
+  delay: 2m
+  enabled: true
+  hashStorageType: sql
+  pepperLength: 20
+  requests: 10
+  rotationPolicy: per_requests
+key:
+  path: /var/ma1sd/sign.key
+matrix:
+  domain: l3xlabs.com
+  v1: true
+  v2: true
+server:
+  name: matrix.l3xlabs.com
+storage:
+  backend: postgresql
+  provider:
+    postgresql:
+      database: //matrix-postgres:5432/matrix_ma1sd
+      password: 9bba797f-b4ec-59ec-9658-5c544df45141
+      username: matrix_ma1sd
+synapseSql:
+  connection: //matrix-postgres/synapse?user=synapse&password=a5362453-64b7-59e1-aa2e-eae2f90e4b0a
+  enabled: true
+  type: postgresql
+threepid:
+  medium:
+    email:
+      connectors:
+        smtp:
+          host: matrix-exim-relay
+          login: null
+          password: null
+          port: 8025
+          tls: 0
+      identity:
+        from: matrix@matrix.l3xlabs.com

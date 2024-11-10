@@ -1,0 +1,3 @@
+traefik.http.services.matrix-prometheus.loadbalancer.server.port=9090
+
+

@@ -1,0 +1,22 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+
+
+
+
+traefik.http.middlewares.matrix-jitsi-web-add-response-headers.headers.customresponseheaders.X-XSS-Protection=1; mode=block
+traefik.http.middlewares.matrix-jitsi-web-add-response-headers.headers.customresponseheaders.X-Content-Type-Options=nosniff
+traefik.http.middlewares.matrix-jitsi-web-add-response-headers.headers.customresponseheaders.Permission-Policy=interest-cohort=()
+traefik.http.middlewares.matrix-jitsi-web-add-response-headers.headers.customresponseheaders.Strict-Transport-Security=max-age=31536000; includeSubDomains
+
+traefik.http.routers.matrix-jitsi-web.rule=Host(`jitsi.l3xlabs.com`)
+traefik.http.routers.matrix-jitsi-web.service=matrix-jitsi-web
+traefik.http.routers.matrix-jitsi-web.middlewares=matrix-jitsi-web-add-response-headers
+traefik.http.routers.matrix-jitsi-web.entrypoints=web-secure
+traefik.http.routers.matrix-jitsi-web.tls=true
+traefik.http.routers.matrix-jitsi-web.tls.certResolver=default
+
+traefik.http.services.matrix-jitsi-web.loadbalancer.server.port=80
+

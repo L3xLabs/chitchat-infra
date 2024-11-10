@@ -1,0 +1,24 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+traefik.http.services.matrix-client-element.loadbalancer.server.port=8080
+
+
+
+
+traefik.http.middlewares.matrix-client-element-add-headers.headers.customresponseheaders.X-XSS-Protection=1; mode=block
+traefik.http.middlewares.matrix-client-element-add-headers.headers.customresponseheaders.X-Frame-Options=SAMEORIGIN
+traefik.http.middlewares.matrix-client-element-add-headers.headers.customresponseheaders.X-Content-Type-Options=nosniff
+traefik.http.middlewares.matrix-client-element-add-headers.headers.customresponseheaders.Content-Security-Policy=frame-ancestors 'self'
+traefik.http.middlewares.matrix-client-element-add-headers.headers.customresponseheaders.Permission-Policy=interest-cohort=()
+traefik.http.middlewares.matrix-client-element-add-headers.headers.customresponseheaders.Strict-Transport-Security=max-age=31536000; includeSubDomains
+
+traefik.http.routers.matrix-client-element.rule=Host(`element.l3xlabs.com`)
+traefik.http.routers.matrix-client-element.service=matrix-client-element
+traefik.http.routers.matrix-client-element.middlewares=matrix-client-element-add-headers
+traefik.http.routers.matrix-client-element.entrypoints=web-secure
+traefik.http.routers.matrix-client-element.tls=true
+traefik.http.routers.matrix-client-element.tls.certResolver=default
+
+

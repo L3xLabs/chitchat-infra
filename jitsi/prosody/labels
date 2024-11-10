@@ -1,0 +1,16 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+
+
+
+
+traefik.http.routers.matrix-jitsi-prosody.rule=Host(`jitsi.l3xlabs.com`) && PathPrefix(`/xmpp-websocket`)
+traefik.http.routers.matrix-jitsi-prosody.service=matrix-jitsi-prosody
+traefik.http.routers.matrix-jitsi-prosody.entrypoints=web-secure
+traefik.http.routers.matrix-jitsi-prosody.tls=true
+traefik.http.routers.matrix-jitsi-prosody.tls.certResolver=default
+
+traefik.http.services.matrix-jitsi-prosody.loadbalancer.server.port=5280
+

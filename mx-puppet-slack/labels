@@ -1,0 +1,29 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+traefik.http.services.matrix-mx-puppet-slack.loadbalancer.server.port=8432
+
+############################################################
+#                                                          #
+# Public                                                   #
+#                                                          #
+############################################################
+
+traefik.http.routers.matrix-mx-puppet-slack-public.rule=Host(`matrix.l3xlabs.com`) && PathPrefix(`/slack/oauth`)
+
+
+traefik.http.routers.matrix-mx-puppet-slack-public.service=matrix-mx-puppet-slack
+traefik.http.routers.matrix-mx-puppet-slack-public.entrypoints=web-secure
+
+traefik.http.routers.matrix-mx-puppet-slack-public.tls=true
+traefik.http.routers.matrix-mx-puppet-slack-public.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Public                                                  #
+#                                                          #
+############################################################
+
+
+

@@ -1,0 +1,42 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+traefik.http.services.matrix-synapse-client-api.loadbalancer.server.port=8008
+traefik.http.services.matrix-synapse-federation-api.loadbalancer.server.port=8048
+traefik.http.services.matrix-synapse-metrics.loadbalancer.server.port=9100
+
+
+############################################################
+#                                                          #
+# Public Root path (/)                                     #
+#                                                          #
+############################################################
+
+
+traefik.http.middlewares.matrix-synapse-public-client-root-redirect.redirectregex.regex=(.*)
+traefik.http.middlewares.matrix-synapse-public-client-root-redirect.redirectregex.replacement=https://element.l3xlabs.com
+
+traefik.http.routers.matrix-synapse-public-client-root.rule=Host(`matrix.l3xlabs.com`) && Path(`/`)
+
+traefik.http.routers.matrix-synapse-public-client-root.middlewares=matrix-synapse-public-client-root-redirect
+
+
+traefik.http.routers.matrix-synapse-public-client-root.service=matrix-synapse-client-api
+traefik.http.routers.matrix-synapse-public-client-root.entrypoints=web-secure
+traefik.http.routers.matrix-synapse-public-client-root.tls=true
+
+traefik.http.routers.matrix-synapse-public-client-root.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Public Root path (/)                                    #
+#                                                          #
+############################################################
+
+
+ 
+
+
+
+

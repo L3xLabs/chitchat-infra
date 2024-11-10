@@ -1,0 +1,96 @@
+traefik.enable=true
+
+traefik.docker.network=traefik
+
+traefik.http.services.matrix-synapse-reverse-proxy-companion-client-api.loadbalancer.server.port=8008
+traefik.http.services.matrix-synapse-reverse-proxy-companion-federation-api.loadbalancer.server.port=8048
+
+
+############################################################
+#                                                          #
+# Public Client-API (/_matrix)                             #
+#                                                          #
+############################################################
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-api.rule=Host(`matrix.l3xlabs.com`) && PathPrefix(`/_matrix`)
+
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-api.service=matrix-synapse-reverse-proxy-companion-client-api
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-api.entrypoints=web-secure
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-api.tls=true
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-api.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Public Client-API (/_matrix)                            #
+#                                                          #
+############################################################
+
+
+############################################################
+#                                                          #
+# Internal Client-API (/_matrix)                           #
+#                                                          #
+############################################################
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-internal-client-api.rule=PathPrefix(`/_matrix`)
+
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-internal-client-api.service=matrix-synapse-reverse-proxy-companion-client-api
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-internal-client-api.entrypoints=matrix-internal-matrix-client-api
+
+############################################################
+#                                                          #
+# /Internal Client-API (/_matrix)                          #
+#                                                          #
+############################################################
+
+
+############################################################
+#                                                          #
+# Public Synapse Admin API (/_synapse/client)              #
+#                                                          #
+############################################################
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-synapse-client-api.rule=Host(`matrix.l3xlabs.com`) && PathPrefix(`/_synapse/client`)
+
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-synapse-client-api.service=matrix-synapse-reverse-proxy-companion-client-api
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-synapse-client-api.entrypoints=web-secure
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-synapse-client-api.tls=true
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-client-synapse-client-api.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Public Synapse Admin API (/_synapse/client)             #
+#                                                          #
+############################################################
+
+
+
+
+############################################################
+#                                                          #
+# Public Federation-API (/_matrix)                         #
+#                                                          #
+############################################################
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-federation-api.rule=Host(`matrix.l3xlabs.com`) && PathPrefix(`/_matrix`)
+
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-federation-api.service=matrix-synapse-reverse-proxy-companion-federation-api
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-federation-api.entrypoints=matrix-federation
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-federation-api.tls=true
+
+traefik.http.routers.matrix-synapse-reverse-proxy-companion-public-federation-api.tls.certResolver=default
+
+############################################################
+#                                                          #
+# /Public Federation-API (/_matrix)                        #
+#                                                          #
+############################################################
+
+
+

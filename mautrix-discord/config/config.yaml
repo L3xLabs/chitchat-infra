@@ -1,0 +1,112 @@
+appservice:
+  address: http://matrix-mautrix-discord:8080
+  as_token: 8b521e54-044d-58df-ac6f-497a02115897
+  bot:
+    avatar: mxc://maunium.net/nIdEykemnwdisvHbpxflpDlC
+    displayname: Discord bridge bot
+    username: discordbot
+  database:
+    max_conn_idle_time: null
+    max_conn_lifetime: null
+    max_idle_conns: 2
+    max_open_conns: 20
+    type: postgres
+    uri: postgresql://matrix_mautrix_discord:d759a985-baaa-5d97-a556-f50c7cc65cdf@matrix-postgres:5432/matrix_mautrix_discord?sslmode=disable
+  ephemeral_events: true
+  hostname: 0.0.0.0
+  hs_token: b0c2377e-34c6-5c7b-84b2-d7e45049ae8f
+  id: discord
+  port: 8080
+bridge:
+  animated_sticker:
+    args:
+      fps: 25
+      height: 320
+      width: 320
+    target: webp
+  backfill:
+    forward_limits:
+      initial:
+        channel: 0
+        dm: 0
+        thread: 0
+      missed:
+        channel: 0
+        dm: 0
+        thread: 0
+    max_guild_members: -1
+  cache_media: unencrypted
+  channel_name_template: '{{if or (eq .Type 3) (eq .Type 4)}}{{.Name}}{{else}}#{{.Name}}{{end}}'
+  command_prefix: '!discord'
+  custom_emoji_reactions: true
+  delete_guild_on_leave: true
+  delete_portal_on_channel_delete: false
+  delivery_receipts: false
+  displayname_template: '{{or .GlobalName .Username}}{{if .Bot}} (bot){{end}}'
+  double_puppet_allow_discovery: false
+  double_puppet_server_map:
+    l3xlabs.com: http://matrix-traefik:8008
+  enable_webhook_avatars: true
+  encryption:
+    allow: false
+    allow_key_sharing: false
+    default: false
+    require: false
+    rotation:
+      enable_custom: false
+      messages: 100
+      milliseconds: 604800000
+    verification_levels:
+      receive: unverified
+      send: unverified
+      share: cross-signed-tofu
+  federate_rooms: true
+  guild_name_template: '{{.Name}}'
+  login_shared_secret_map:
+    l3xlabs.com: as_token:f613d29f-a4aa-51af-9774-5ead607b1fe2
+  management_room_text:
+    additional_help: ''
+    welcome: Hello, I'm a Discord bridge bot.
+    welcome_connected: Use `help` for help.
+    welcome_unconnected: Use `help` for help or `login` to log in.
+  media_patterns:
+    attachments: mxc://discord-media.mau.dev/attachments|{{.ChannelID}}|{{.AttachmentID}}|{{.FileName}}
+    avatars: mxc://discord-media.mau.dev/avatars|{{.UserID}}|{{.AvatarID}}.{{.Ext}}
+    emojis: mxc://discord-media.mau.dev/emojis|{{.ID}}.{{.Ext}}
+    enabled: false
+    stickers: mxc://discord-media.mau.dev/stickers|{{.ID}}.{{.Ext}}
+  message_error_notices: true
+  message_status_events: true
+  permissions:
+    '*': relay
+    '@meru:l3xlabs.com': admin
+    l3xlabs.com: user
+  portal_message_buffer: 128
+  prefix_webhook_messages: false
+  private_chat_portal_meta: default
+  provisioning:
+    prefix: /_matrix/provision
+    shared_secret: generate
+  resend_bridge_info: false
+  restricted_rooms: true
+  startup_private_channel_create_limit: 5
+  sync_direct_chat_list: false
+  use_discord_cdn_upload: true
+  username_template: discord_{{.}}
+homeserver:
+  address: http://matrix-traefik:8008
+  asmux: false
+  async_media: false
+  domain: l3xlabs.com
+  message_send_checkpoint_endpoint: null
+  public_address: https://matrix.l3xlabs.com
+  status_endpoint: null
+logging:
+  directory: ./logs
+  file_date_format: '2006-01-02'
+  file_json: false
+  file_mode: 384
+  file_name_format: ''
+  print_json: false
+  print_level: warn
+  timestamp_format: Jan _2, 2006 15:04:05

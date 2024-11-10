@@ -1,0 +1,13 @@
+worker_app: synapse.app.generic_worker
+worker_name: matrix-synapse-worker-appservice-0
+
+worker_daemonize: false
+worker_log_config: /data/matrix.l3xlabs.com.log.config
+
+
+
+
+worker_listeners:
+  - type: metrics
+    bind_addresses: ['0.0.0.0']
+    port: 19300

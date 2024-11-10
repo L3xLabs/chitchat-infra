@@ -1,0 +1,16 @@
+as_token: c52de91c-9163-5960-b7a7-c79616ff4efb
+de.sorunome.msc2409.push_ephemeral: true
+hs_token: aef6bc5e-a7c2-57d6-9f20-6a314f7b5e54
+id: slack-puppet
+namespaces:
+  aliases:
+  - exclusive: true
+    regex: '#_slackpuppet_.*:l3xlabs\.com'
+  rooms: []
+  users:
+  - exclusive: true
+    regex: '@_slackpuppet_.*:l3xlabs\.com'
+protocols: []
+rate_limited: false
+sender_localpart: _slackpuppet_bot
+url: http://matrix-mx-puppet-slack:8432
